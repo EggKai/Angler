@@ -16,7 +16,7 @@
 - **Team Member 2: [AikKai](https://github.com/Eggkai)**  
   **Role**: Client (Extension to interface with Web Server API, Web Server API)
 
-- **Team Member 3: [Hanyong](https://github.com/ForTheVibes)**  
+- **Team Member 3: Hanyong**  
   **Role**: Server (Integrate third-party services API)
 
 - **Team Member 4: [Xaiver](https://github.com/Xyl0w)**  
@@ -25,7 +25,7 @@
 - **Team Member 5: [Javier](https://github.com/java-0w)**  
   **Role**: Metrics/Performance Indicator (Generate reports and metrics for phishing detection accuracy and false positives)
 
-- **Team Member 6: [Johan](https://github.com/johannybo1)**  
+- **Team Member 6: Johan**  
   **Role**: Data Processing/Feature Engineering (Cleaning, tokenization, handling missing values, metadata/URL analysis)
 
 ## **3. Problem Statement**
