@@ -26,11 +26,11 @@ pipeline_sgd = Pipeline(steps=[
     ('tfidf', TfidfVectorizer(stop_words='english')),
     ('model', CalibratedClassifierCV(SGDClassifier(loss='log', random_state=0), method='isotonic'))
 ])
-phishing_classifier = joblib.load('models/AnglerPhishing/phishing_classifier.pkl')
+phishing_classifier = joblib.load('models/SpamAssassin/phishing_classifier.pkl')
 
-def probability_of_phishing(texts: str):
+def probability_of_spam(texts: str):
     text = pd.Series([texts])  #Pandas Series
     return phishing_classifier.predict_proba(text)[0][0] * 100 # Probability of class 1 (Phishing)
 
 if __name__ == "__main__":
-    print(f"probability_of_phishing: {probability_of_phishing('Send me your bank details to claim your prize!')}")
+    print(f"probability of spam: {probability_of_spam('Send me your bank details to claim your prize!')}")
