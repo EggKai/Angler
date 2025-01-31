@@ -1,13 +1,14 @@
+<p align="center">
+  <img src="AnglerLogo.png" alt="AnglerLogo"/>
+</p>
+
 ```plaintext  
    __    _  _  ___  __    ____  ____ 
   /__\  ( \( )/ __)(  )  ( ___)(  _ \
  /(__)\  )  (( (_-. )(__  )__)  )   /
 (__)(__)(_)\_)\___/(____)(____)(_)\_)
 ```
-
-## **Angler**
 **Detecting Phishing Emails Using Machine Learning**
-
 ## **2. Team Members and Task Allocation**
 
 - **Team Member 1: [Kelvin](https://github.com/WaterExecution)**  
