@@ -28,7 +28,7 @@ pipeline_sgd = Pipeline(steps=[
 ])
 phishing_classifier = joblib.load('models/SpamAssassin/phishing_classifier.pkl')
 
-def probability_of_spam(texts: str):
+def probability_of_spam(texts: str) -> float:
     text = pd.Series([texts])  #Pandas Series
     return phishing_classifier.predict_proba(text)[0][0] * 100 # Probability of class 1 (Phishing)
 

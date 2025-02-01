@@ -90,15 +90,6 @@ function handleEmail() {
     
     // Send the email content, URLs, image links, and attachments to your API endpoint
     sendSelectedContent(emailText, urls, imageLinks, attachments);
-    
-    // Send the email content, URLs, image links, and attachments to the background script or storage
-    chrome.runtime.sendMessage({
-      action: 'saveEmail',
-      emailText: emailText,
-      urls: urls,
-      imageLinks: imageLinks,
-      attachments: attachments
-    });
   }
 }
 
@@ -124,11 +115,10 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
   .then(responseData => {
     // Handle the server's response
     console.log('Response from server:', responseData);
-    if (responseData.message) {
-      console.log('Content sent successfully: ' + responseData.message);
-    } else if (responseData.error) {
-      console.error('Error: ' + responseData.error);
-    }
+    chrome.runtime.sendMessage({
+      action: 'saveEmail',
+      emailData: responseData,  // Save only the server's response
+    });
   })
   .catch(error => {
     console.error('Error sending data to the server:', error);

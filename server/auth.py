@@ -5,7 +5,7 @@ from .config import Config
 def check_origin(origin):
     """Check if the request comes from an allowed domain."""
     if origin:
-        domain = re.sub(r'^https?:\/\/', '', origin).split('/')[0]
+        domain = re.sub(r'^https:\/\/', '', origin).split('/')[0] #allow only https
         return any(domain.endswith(email_domain) for email_domain in Config.ALLOWED_DOMAINS)
     return False
 

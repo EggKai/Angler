@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="AnglerLogo.png" alt="AnglerLogo"/>
+  <img src="angler-js/logo.png" alt="AnglerLogo"/>
 </p>
 
 ```plaintext  

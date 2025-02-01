@@ -2,6 +2,9 @@
     "manifest_version": 3,
     "name": "Angler",
     "version": "1.0",
+    "icons" : {
+      "128" : "logo.png" 
+    },
     "description": "Automatically detects email content and attachments and then sends it for validation",
     "permissions": [
       "activeTab",

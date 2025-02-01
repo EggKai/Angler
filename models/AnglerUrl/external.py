@@ -1,5 +1,7 @@
 import requests, urllib.parse
 import xml.etree.ElementTree as ET
+from urllib.parse import urlparse
+import urlextract, warnings
 
 API_URL = "https://checkurl.phishtank.com/checkurl/"
 
@@ -65,18 +67,27 @@ def check_phishing_phishtank(url_to_check, app_key=None, *, verbose: bool = Fals
                             "is_phishing": is_phishing == "false",
                             "found": True,
                         }
-                return {"url": url_to_check, "is_phishing": None, "found": False}
             except ValueError:
-                raise ValueError("The response from PhishTank is not in XML format.")
+                warnings.warn("The response from PhishTank is not in XML format.")
         else:
-            raise requests.exceptions.RequestException(
+            warnings.warn(
                 f"Error: Received non-200 status code {response.status_code}."
             )
     except requests.exceptions.RequestException as e:
-        raise requests.exceptions.RequestException(
-            f"Error in API request: {e}"
+        warnings.warn(
+            f"Error in API request: {e}; {url_to_check}"
         )  # Catch network-related errors or other HTTP exceptions
+    return {
+        "url": url_to_check,
+        "is_phishing": None,
+        "found": False,
+    }
+    
+def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtract()):
+    return urlExtractor.find_urls(text)
 
+def extract_domain(urls:list) -> dict:
+    return set(f"{urlparse(url).scheme}://{urlparse(url).netloc}" for url in urls)
 
 if __name__ == "__main__":
     assert not check_phishing_phishtank("https://www.dbs.com.sg/index/default.page")[

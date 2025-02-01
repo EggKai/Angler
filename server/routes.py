@@ -27,9 +27,9 @@ def receive_data():
 
     # Sanitize the 'content' to avoid XSS attacks
     sanitized_content = sanitize_content(data['emailText'])
-    checkContent(sanitized_content, data['urls'], data['imageLinks'])
+    
     
     # Process the content (e.g., logging or saving to database)
     print(f"Received content: {sanitized_content}")
 
-    return jsonify({"message": "Data received successfully!"}), 200
+    return jsonify(checkContent(sanitized_content, data['urls'], data['imageLinks'])), 200
