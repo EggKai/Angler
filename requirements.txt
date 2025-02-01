@@ -9,3 +9,7 @@ urlextract
 whois
 requests
 xgboost
+pytesseract
+pillow
+opencv-python
+numpy

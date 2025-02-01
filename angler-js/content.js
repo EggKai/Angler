@@ -88,7 +88,7 @@ function handleEmail() {
     lastProcessedEmailId = emailId;
     // console.log('Email Text:', emailText);
     // console.log('Extracted URLs:', urls);
-    // console.log('Extracted Image Links:', imageLinks);
+    console.log('Extracted Image Links:', imageLinks);
     // console.log('Extracted Attachments:', attachments);
 
     // Send the email content, URLs, image links, and attachments to your API endpoint
