@@ -87,7 +87,7 @@ def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtra
     return urlExtractor.find_urls(text)
 
 def extract_domain(urls:list) -> dict:
-    return set(f"{urlparse(url).scheme}://{urlparse(url).netloc}" for url in urls)
+    return set(f"{urlparse(url).scheme}://{urlparse(url).netloc}" for url in urls if urlparse(url).netloc)
 
 if __name__ == "__main__":
     assert not check_phishing_phishtank("https://www.dbs.com.sg/index/default.page")[

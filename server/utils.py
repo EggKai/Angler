@@ -28,5 +28,5 @@ def checkContent(text, urls, imgUrls):
         "LLM" : random.randint(90,100),
         "urls" : checkUrls(text, urls),
         "Code" : "Safe",
-        "Executables" : "Malicious"
+        "Executables" : "Safe"
     }
