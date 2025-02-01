@@ -1,4 +1,3 @@
-import nltk
 import pandas as pd
 import string
 from bs4 import BeautifulSoup
@@ -9,16 +8,15 @@ import email
 from sklearn.feature_extraction.text import CountVectorizer
 import os 
 from sklearn.pipeline import Pipeline
-vectorizer = CountVectorizer(stop_words='english')
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer
 stemmer = PorterStemmer()
+vectorizer = CountVectorizer(stop_words='english')
 lemmatizer = WordNetLemmatizer()
 from sklearn.linear_model import SGDClassifier
-
 import joblib
 
 class email_to_clean_text(BaseEstimator, TransformerMixin):
@@ -65,24 +63,16 @@ class email_to_clean_text(BaseEstimator, TransformerMixin):
             text_list.append(' '.join(words_list))
         return text_list
     
+# pipeline_sgd = Pipeline(steps=[
+#     ('clean', email_to_clean_text()),
+#     ('tfidf', TfidfVectorizer(stop_words='english')),
+#     ('model', CalibratedClassifierCV(SGDClassifier(loss='log_loss', random_state=0), method='isotonic'))
+# ])
 
-pipeline_sgd = Pipeline(steps=[
-    ('clean', email_to_clean_text()),
-    ('tfidf', TfidfVectorizer(stop_words='english')),
-    ('model', CalibratedClassifierCV(SGDClassifier(loss='log_loss', random_state=0), method='isotonic'))
-])
-
-<<<<<<< Updated upstream
-def probability_of_spam(texts: str) -> float:
-    text = pd.Series([texts])  #Pandas Series
-    return phishing_classifier.predict_proba(text)[0][0] * 100 # Probability of class 1 (Phishing)
-=======
-import joblib
 phishing_classifier = joblib.load(r"C:\Users\Admin\Documents\Work\SIT_WORK\SIT_work\INF1002-Programming_fundamentals\project\spam_classifier.pkl")
 def predict_phishing_probability(emails):
     prob = round(phishing_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 2)
     print('The probability of phishing is {prob} %'.format(prob=prob))
     return prob
->>>>>>> Stashed changes
-
-predict_phishing_probability('''From: "Mr. Ben Suleman" <bensul200''')
+if __name__ == "__main__":
+    predict_phishing_probability('''From: "Mr. Ben Suleman" <bensul200''')

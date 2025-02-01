@@ -74,6 +74,9 @@ function extractEmailId() {
 
 // Function to handle email content extraction
 function handleEmail() {
+  chrome.runtime.sendMessage({
+    action: 'busy',
+  });
   const emailText = extractEmailText();
   const urls = extractUrls();  // Extract URLs from the email body
   const imageLinks = extractImageLinks();  // Extract image URLs
@@ -125,31 +128,36 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
   });
 }
 
-// Function to check for email content periodically
-function pollForEmailContent() {
-  const emailBody = document.querySelector('.a3s.aiL'); // Check for email body
-  if (emailBody) {
-    if (chrome.runtime && chrome.runtime.sendMessage) {
-      chrome.runtime.sendMessage({
-        action: 'busy',
-      });
-      handleEmail();  // Process the email content if found
+// Set up MutationObserver to watch for changes in the DOM
+const observer = new MutationObserver((mutationsList) => {
+  for (const mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      // Check if the .a3s.aiL element is added or removed
+      const emailBody = document.querySelector('.a3s.aiL');
+      if (emailBody) {
+        
+        handleEmail();  // Process the email content if found
+      } else {
+        chrome.runtime.sendMessage({
+          action: 'clearEmail',
+        });
+      }
     }
-  } else {
-    chrome.runtime.sendMessage({
-      action: 'clearEmail',
-    });
   }
-}
-
-// Set a polling interval to check for email content every 1 second (1000ms)
-const pollInterval = setInterval(pollForEmailContent, 1000);
-
-window.addEventListener('load', () => { // Optional: Initial check right after the page loads
-  pollForEmailContent();  // Do an initial check on load
 });
 
-// Handle potential page reloads or Gmail context changes by resetting the poll interval
+// Configure the MutationObserver to watch for the addition/removal of child elements
+const config = { childList: true, subtree: true };
+observer.observe(document.body, config);
+
+// Handle potential page reloads or Gmail context changes by disconnecting the observer
 window.addEventListener('beforeunload', () => {
-  clearInterval(pollInterval); // Clear the previous polling interval if the page is unloading
+  observer.disconnect(); // Stop observing when the page is unloading
+});
+
+window.addEventListener('load', () => { 
+  const emailBody = document.querySelector('.a3s.aiL');
+  if (emailBody) {
+    handleEmail();  // Initial check on page load if the email body exists
+  }
 });
