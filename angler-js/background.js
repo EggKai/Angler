@@ -20,5 +20,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     return true;  // Keep the message channel open for async respons  e
   }
+  if (request.action === 'clearEmail') {
+    chrome.storage.local.remove('emailData', () => {
+      sendResponse({ status: 'cleared' });
+    });
+    chrome.storage.local.remove('busy', () => {
+      sendResponse({ status: 'free' });
+    });
+    return true;  // Keep the message channel open for async response
+  }
+  if (request.action === 'busy') {
+    chrome.storage.local.set({busy: true} , () => {
+      sendResponse({ status: 'busy' });
+    });
+    return true;  // Keep the message channel open for async response
+  }
 });
   

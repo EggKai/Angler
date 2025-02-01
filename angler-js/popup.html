@@ -11,24 +11,34 @@
   <div id="popup-container">
     <h2>📊 Angler Email Analysis</h2>
 
-    <div id="email-content">
+    <div class="circle" id="email-content">
       <h3>📑 Analysis Summary</h3>
+      <div class="score-container">
+        <span class="label">Phishing Score:</span>
+        <div class="circle" id="circles-phishing"></div>
+      </div>
+      <div class="score-container">
+        <span class="label">Spam Score:</span>
+        <div class="circle" id="circles-spam"></div>
+      </div>
+      <div class="score-container">
+        <span class="label">LLM Score:</span>
+        <div class="circle" id="circles-llm"></div>
+      </div>
       <table>
-        <tr><th>Spam Probability:</th><td id="spam-score">Loading...</td></tr>
-        <tr><th>Phishing Probability:</th><td id="phishing-score">Loading...</td></tr>
-        <tr><th>LLM Score:</th><td id="llm-score">Loading...</td></tr>
-        <tr><th>Code Status:</th><td id="code-status">Loading...</td></tr>
-        <tr><th>Executables:</th><td id="executables-status">Loading...</td></tr>
+        <!-- <tr><th>Spam Probability:</th><td id="spam-score">Loading...</td></tr> -->
+        <!-- <tr><th>Phishing Probability:</th><td id="phishing-score">Loading...</td></tr> -->
+        <!-- <tr><th>LLM Score:</th><td id="llm-score">Loading...</td></tr> -->
+        <tr><th>Code:</th><td id="code">Loading...</div></td></tr>
+        <tr><th>Executables:</th><td id="executables">Loading...</td></tr>
       </table>
-
       <h3>🔗 URLs & Status</h3>
       <ul id="urls-section"><li>Loading...</li></ul> 
-
       <!-- <h3>📎 Attachments</h3>
       <ul id="attachment-list"><li>No attachments</li></ul> -->
     </div>
   </div>
-
-  <script src="popup.js"></script>
+  <script defer src="circles.min.js"></script>
+  <script defer src="popup.js"></script>
 </body>
 </html>

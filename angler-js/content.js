@@ -83,11 +83,11 @@ function handleEmail() {
   if (emailId && emailId !== lastProcessedEmailId) {
     // Update the last processed email ID to the current one
     lastProcessedEmailId = emailId;
-    console.log('Email Text:', emailText);
-    console.log('Extracted URLs:', urls);
-    console.log('Extracted Image Links:', imageLinks);
-    console.log('Extracted Attachments:', attachments);
-    
+    // console.log('Email Text:', emailText);
+    // console.log('Extracted URLs:', urls);
+    // console.log('Extracted Image Links:', imageLinks);
+    // console.log('Extracted Attachments:', attachments);
+
     // Send the email content, URLs, image links, and attachments to your API endpoint
     sendSelectedContent(emailText, urls, imageLinks, attachments);
   }
@@ -117,7 +117,7 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
     console.log('Response from server:', responseData);
     chrome.runtime.sendMessage({
       action: 'saveEmail',
-      emailData: responseData,  // Save only the server's response
+      emailData: responseData,  // Save the server's response
     });
   })
   .catch(error => {
@@ -129,12 +129,21 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
 function pollForEmailContent() {
   const emailBody = document.querySelector('.a3s.aiL'); // Check for email body
   if (emailBody) {
-    handleEmail();  // Process the email content if found
+    if (chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.runtime.sendMessage({
+        action: 'busy',
+      });
+      handleEmail();  // Process the email content if found
+    }
+  } else {
+    chrome.runtime.sendMessage({
+      action: 'clearEmail',
+    });
   }
 }
 
-// Set a polling interval to check for email content every 5 seconds (5000ms)
-const pollInterval = setInterval(pollForEmailContent, 5000);
+// Set a polling interval to check for email content every 1 second (1000ms)
+const pollInterval = setInterval(pollForEmailContent, 1000);
 
 window.addEventListener('load', () => { // Optional: Initial check right after the page loads
   pollForEmailContent();  // Do an initial check on load

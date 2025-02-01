@@ -1,6 +1,7 @@
 import html
 from models import checkUrls
 # from models import probability_of_spam, apply_preprocess_text
+import random
 
 def sanitize_content(content):
     """Sanitize the content to avoid XSS (HTML escaping)."""
@@ -22,9 +23,9 @@ def checkContent(text, urls, imgUrls):
     
     
     return { #placeholder numbers
-        "Spam" : 40.2,
-        "Phishing" : 50.6,
-        "LLM" : 90.8,
+        "Spam" : random.randint(1,99),
+        "Phishing" : random.randint(50,99),
+        "LLM" : random.randint(90,100),
         "urls" : checkUrls(text, urls),
         "Code" : "Safe",
         "Executables" : "Malicious"
