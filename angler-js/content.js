@@ -114,18 +114,18 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
     },
     body: JSON.stringify(data)  // Convert the data to a JSON string
   })
-  .then(response => response.json())
-  .then(responseData => {
-    // Handle the server's response
-    console.log('Response from server:', responseData);
-    chrome.runtime.sendMessage({
-      action: 'saveEmail',
-      emailData: responseData,  // Save the server's response
+    .then(response => response.json())
+    .then(responseData => {
+      // Handle the server's response
+      console.log('Response from server:', responseData);
+      chrome.runtime.sendMessage({
+        action: 'saveEmail',
+        emailData: responseData,  // Save the server's response
+      });
+    })
+    .catch(error => {
+      console.error('Error sending data to the server:', error);
     });
-  })
-  .catch(error => {
-    console.error('Error sending data to the server:', error);
-  });
 }
 
 // Set up MutationObserver to watch for changes in the DOM
@@ -135,7 +135,7 @@ const observer = new MutationObserver((mutationsList) => {
       // Check if the .a3s.aiL element is added or removed
       const emailBody = document.querySelector('.a3s.aiL');
       if (emailBody) {
-        
+
         handleEmail();  // Process the email content if found
       } else {
         chrome.runtime.sendMessage({
@@ -155,7 +155,7 @@ window.addEventListener('beforeunload', () => {
   observer.disconnect(); // Stop observing when the page is unloading
 });
 
-window.addEventListener('load', () => { 
+window.addEventListener('load', () => {
   const emailBody = document.querySelector('.a3s.aiL');
   if (emailBody) {
     handleEmail();  // Initial check on page load if the email body exists

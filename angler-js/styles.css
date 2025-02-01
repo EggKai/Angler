@@ -43,11 +43,6 @@ li {
   font-weight: bold;
 }
 
-/* circle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 
 .score-container {
   display: flex;
@@ -83,7 +78,7 @@ li {
   width: 0%;
   height: 100%;
   background-color: #4caf50;
-  transition: width 0.5s ease;
+  transition: width 3s ease;
 }
 
 #loading-text {

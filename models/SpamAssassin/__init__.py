@@ -69,7 +69,7 @@ class email_to_clean_text(BaseEstimator, TransformerMixin):
 #     ('model', CalibratedClassifierCV(SGDClassifier(loss='log_loss', random_state=0), method='isotonic'))
 # ])
 
-phishing_classifier = joblib.load(r"C:\Users\Admin\Documents\Work\SIT_WORK\SIT_work\INF1002-Programming_fundamentals\project\spam_classifier.pkl")
+phishing_classifier = joblib.load(r"models/SpamAssassin/spam_classifier.pkl")
 def predict_phishing_probability(emails):
     prob = round(phishing_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 2)
     print('The probability of phishing is {prob} %'.format(prob=prob))

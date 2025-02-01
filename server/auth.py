@@ -1,5 +1,4 @@
 import re
-from flask import request
 from .config import Config
 
 def check_origin(origin):

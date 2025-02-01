@@ -6,7 +6,7 @@ function createCircleChart(id, percent) {
     radius: 30,
     width: 6,
     text: function (value) { return value + '%'; },
-    colors: ['grey', percent > 60 ? 'red ':'green'],
+    colors: ['grey', percent > 60 ? 'red ' : 'green'],
     duration: 2000,
     wrpClass: 'circles-wrp',
     textClass: 'circles-text',
