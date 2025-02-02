@@ -9,6 +9,6 @@ import joblib
 
 phishing_classifier = joblib.load(r'models/AnglerPhish/phishing_classifier.pkl')
 def predict_phishing_probability(emails):
-    prob = round(phishing_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 2)
-    print('The probability of phishing is {prob} %'.format(prob=prob))
+    prob = round(phishing_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 1)
+    # print('The probability of phishing is {prob} %'.format(prob=prob))
     return prob

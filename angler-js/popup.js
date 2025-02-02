@@ -32,18 +32,18 @@ function updateWebpage() {
   chrome.storage.local.get('emailData', (data) => {
     const emailData = data?.emailData;
 
-    // If no data, show the loading bar at 30%
+    // If no data, show the loading bar at 90%
     if (!emailData) {
-      updateLoadingBar(78);  // Set the progress of the loading bar
+      updateLoadingBar(90);  // Set the progress of the loading bar
       document.getElementById('loading-text').textContent = 'Loading...';
       return;
     }
 
-    // Check if any required fields are missing, and if so, show the loading bar at 60%
+    // Check if any required fields are missing, and if so, show the loading bar at 95%
     const requiredFields = ['Spam', 'Phishing', 'LLM', 'urls', 'Code', 'Executables'];
     const missingFields = requiredFields.filter(field => !(field in emailData));
     if (missingFields.length > 0) {
-      updateLoadingBar(90);  // Update loading bar progress to 60%
+      updateLoadingBar(95);  // Update loading bar progress to 60%
       document.getElementById('loading-text').textContent = 'Loading...';
       return;
     }

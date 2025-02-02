@@ -10,8 +10,8 @@ import joblib
 
 spam_classifier = joblib.load(r'models/SpamAssassin/spam_classifier.pkl')
 def predict_spam_probability(emails : str):
-    prob = round(spam_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 2)
-    print('The probability of spam is {prob} %'.format(prob=prob))
+    prob = round(spam_classifier.predict_proba(pd.Series(emails))[0][0] * 100, 1)
+    # print('The probability of spam is {prob} %'.format(prob=prob))
     return prob
 
 if __name__ == "__main__":
