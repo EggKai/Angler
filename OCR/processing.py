@@ -12,10 +12,8 @@ def process_image_for_ocr(file_path):
     im_new = remove_noise_and_smooth(temp_filename)
     return im_new
 
-
 def set_image_dpi(file_path): # Function to set image DPI for better resolution and handle transparency
     im = Image.open(file_path)
-    
     
     if im.mode == 'RGBA': # If the image is in RGBA mode (transparent), we keep it in that mode
         im = im.convert('RGBA')  # Keep transparency
@@ -25,7 +23,6 @@ def set_image_dpi(file_path): # Function to set image DPI for better resolution 
     size = factor * length_x, factor * width_y
     im_resized = im.resize(size, Image.Resampling.LANCZOS)  # Use LANCZOS for better quality
     
-  
     extension = os.path.splitext(file_path)[1].lower()   # Save the image in the appropriate format
     if extension == '.png':
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')

@@ -5,46 +5,30 @@ import os
 from PIL import Image
 import warnings
 from processing import process_image_for_ocr
-# Function to preprocess image, perform OCR, and clean up
 def get_image_extension_from_response(response):
     content_type = response.headers.get('Content-Type', '')
     if 'image/png' in content_type:
         return '.png'
     elif 'image/jpeg' in content_type:
         return '.jpg'
-    else:
-        return '.jpg'  # Default to .jpg if unknown format
+    return '.jpg'  # Default to .jpg if unknown format
 def process_images(image_urls):
     for url in image_urls:
         try:
-            # Download the image temporarily
-            # print(f"Downloading image from {url}...")
             response = requests.get(url)
             if response.status_code == 200:
-                # Create a temporary file
-                file_extension = get_image_extension_from_response(response)
-            
-                # Create a temporary file with the correct extension
-                with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_file:
+                file_extension = get_image_extension_from_response(response) # Create a temporary file
+                with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_file: # Create a temporary file with the correct extension
                     temp_file.write(response.content)
                     temp_file_path = temp_file.name
-                
-                # Preprocess the image for OCR
-                preprocessed_image = process_image_for_ocr(temp_file_path)
-                
+                preprocessed_image = process_image_for_ocr(temp_file_path) # Preprocess 
                 if preprocessed_image is None:
                     warnings.warn(f"Skipping {url} due to preprocessing error.")
                     continue
-                
-                # Convert the preprocessed image to PIL format for Tesseract
-                pil_img = Image.fromarray(preprocessed_image)
-                
-                # Use Tesseract to extract text
-                text = pytesseract.image_to_string(pil_img, config='--psm 6')
-                print(f"Text from {url}: {text}")
-                
-                # Delete the temporary file after processing
-                os.remove(temp_file_path)
+                pil_img = Image.fromarray(preprocessed_image) # Convert the preprocessed image to PIL format for Tesseract
+                text = pytesseract.image_to_string(pil_img, config='--psm 6') # Use Tesseract to extract text (psm6 seems to work the best)
+                os.remove(temp_file_path) # Delete the temporary file after processing
+                yield {url, text}
             else:
                 print(f"Error: Failed to download image from {url}")
         except Exception as e:
@@ -62,4 +46,4 @@ if __name__ == "__main__":
     "https://ci3.googleusercontent.com/meips/ADKq_NYPXiiD1xdxO-VuDkoefXKFCriPR-L50EZ456kU3UmuH6uFLuGb8g-lELUSRmCsBqrmCedFK-m3jGVh8qnDNo1I97N2nbSyT06Xc41Y1hJydfHdZTLbrDn7-EH2ktKYzoxB-w4=s0-d-e1-ft#https://store.fastly.steamstatic.com/public/shared/images/email/logo_valve.jpg",
     "https://ci3.googleusercontent.com/meips/ADKq_NYcUVoMGWTs6tbLLNcP55TKkIZMN5ydD63F1BRr3mAU3yktur9Efp_Fh0eNLIRfoj8zS29TeFnknurb2nlibE_gkeAeLuHi3XQpx9NDL746o4OUzCFn=s0-d-e1-ft#https://cdn.fastly.steamstatic.com/store/email/general/ico_x.png"
     ]
-    process_images(image_urls)
+    print(list(process_images(image_urls)))
