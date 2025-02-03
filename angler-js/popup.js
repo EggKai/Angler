@@ -72,7 +72,7 @@ function updateWebpage() {
     if (emailData.urls && Object.keys(emailData.urls).length > 0) {
       Object.entries(emailData.urls).forEach(([url, status]) => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `<a href="${url}" target="_blank">${url}</a> - <strong>${status}</strong>`;
+        listItem.innerHTML = `<a ${!status?`href="${url}"`:''} target="_blank">${url}</a> - <strong>${status?'Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
         urlsSection.appendChild(listItem);
       });
     } else {

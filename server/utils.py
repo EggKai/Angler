@@ -7,7 +7,7 @@ def sanitize_content(content):
     """Sanitize the content to avoid XSS (HTML escaping)."""
     return html.escape(content)
 
-def checkContent(text, urls, imgUrls):
+def checkContent(text, urls, imgUrls, attachmentPaths):
     """
     Check text 
         -> Spam
@@ -22,7 +22,7 @@ def checkContent(text, urls, imgUrls):
     """
     
     
-    return { #placeholder numbers
+    return { 
         "Spam" : predict_spam_probability(text),
         "Phishing" : predict_phishing_probability(text),
         "LLM" : LLM_probablity(text),

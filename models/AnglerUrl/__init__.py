@@ -15,12 +15,12 @@ def predict_url(url:str) -> bool :
     features = feature_extraction(url) # Extract features from the URL
     features = np.array(features).reshape(1, -1)  # Reshape for the model
     prediction = loaded_model.predict(features)[0] # Make a prediction
-    return prediction == 1 
+    return bool(prediction) #convert numpy boolean value to python boolean value
 def checkUrls(text, urls):
-    if not (all_urls:=[url for url in extract_domain(extractUrls(text))+urls if url != '://']):
+    if not (all_urls:=[url for url in list(extract_domain(extractUrls(text)))+list(extract_domain(urls)) if url != '://']):
         return None
     with ThreadPoolExecutor() as executor:
-        results = dict(zip(all_urls, executor.map(check_phishing_phishtank, all_urls)))
+        results = list(executor.map(check_phishing_phishtank, all_urls))
     return {result['url']: result["is_phishing"] if result['found'] else predict_url(result['url']) for result in results}
 if __name__ == "__main__":
     test_url = "https://www.quicksharebd.xyz/2025/01/solo-leveling-season-2-arise-from-shadow.html"
