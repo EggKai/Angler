@@ -2,10 +2,11 @@ import requests, urllib.parse
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 import urlextract, warnings
+from functools import lru_cache
 
 API_URL = "https://checkurl.phishtank.com/checkurl/"
 
-
+@lru_cache(maxsize=50)  # Makes sure redundent calls are made faster
 def check_phishing_phishtank(url_to_check, app_key=None, *, verbose: bool = False):
     """
     Checks if a URL is a known phishing site using the PhishTank API with a POST request.
@@ -86,7 +87,7 @@ def check_phishing_phishtank(url_to_check, app_key=None, *, verbose: bool = Fals
 def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtract()):
     return urlExtractor.find_urls(text)
 
-def extract_domain(urls:list) -> dict:
+def extract_domain(urls:list) -> set:
     return set(f"{urlparse(url).scheme}://{urlparse(url).netloc}" for url in urls if urlparse(url).netloc)
 
 if __name__ == "__main__":

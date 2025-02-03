@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, abort
 from .auth import check_origin, authenticate_token
 from .utils import sanitize_content, checkContent
-import base64, os
+import base64, os, warnings
 
 bp = Blueprint('api', __name__, url_prefix='/')
 
@@ -48,7 +48,7 @@ def receive_data():
 
             saved_files.append(file_path)
         except Exception as e:
-            print(f"Error saving {attachment['name']}: {e}")
+            warnings.warn(f"Error saving {attachment['name']}: {e}")
     checked = checkContent(sanitized_content, data['urls'], data['imageLinks'], saved_files)
 
     return jsonify(checked), 200

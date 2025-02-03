@@ -72,7 +72,7 @@ function updateWebpage() {
     if (emailData.urls && Object.keys(emailData.urls).length > 0) {
       Object.entries(emailData.urls).forEach(([url, status]) => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `<a href="${url}" target="_blank">${url}</a> - <strong>Safe</strong>`;
+        listItem.innerHTML = `<a href="${url}" target="_blank">${url}</a> - <strong>${status}</strong>`;
         urlsSection.appendChild(listItem);
       });
     } else {
