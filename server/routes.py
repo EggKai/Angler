@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, abort
 from .auth import check_origin, authenticate_token
 from .utils import sanitize_content, checkContent
+import base64, os
 
 bp = Blueprint('api', __name__, url_prefix='/')
 
@@ -32,4 +33,22 @@ def receive_data():
     # Process the content (e.g., logging or saving to database)
     print(f"Received content: {sanitized_content}")
 
-    return jsonify(checkContent(sanitized_content, data['urls'], data['imageLinks'])), 200
+    attachments = data.get('attachments', [])
+
+    saved_files = []
+    
+    for attachment in attachments:
+        try:
+            file_name = attachment['name']
+            file_data = base64.b64decode(attachment['base64'])
+            file_path = os.path.join(r"server/tmp/", file_name) #TODO: move to config
+
+            with open(file_path, 'wb') as f:
+                f.write(file_data)
+
+            saved_files.append(file_path)
+        except Exception as e:
+            print(f"Error saving {attachment['name']}: {e}")
+    checked = checkContent(sanitized_content, data['urls'], data['imageLinks'], saved_files)
+
+    return jsonify(checked), 200

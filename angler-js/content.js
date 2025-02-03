@@ -41,20 +41,42 @@ function extractImageLinks() {
   return imageLinks;
 }
 
+// Function to download and convert attachment to Base64
+async function fetchAttachmentAsBase64(url) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]); // Get Base64 data
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error fetching attachment:', error);
+    return null;
+  }
+}
+
 // Function to extract attachments from the email
-function extractAttachments() {
+async function extractAttachments() {
   const attachments = [];
-  const attachmentElements = document.querySelectorAll('.aQh');
-  attachmentElements.forEach((element) => {
-    const attachmentName = element.querySelector('.aSH') ? element.querySelector('.aSH').innerText : 'Unknown Attachment';
+  const attachmentElements = document.querySelectorAll('div .aQH > .aZo');
+  // console.log(attachmentElements);
+  for (const element of attachmentElements) {
     const attachmentLink = element.querySelector('a') ? element.querySelector('a').href : '';
+    const attachmentName = element.querySelector('a > span.a3I') ? element.querySelector('a > span.a3I').innerText  : '';
+    console.log(attachmentName, attachmentLink);
     if (attachmentLink && attachmentName) {
-      attachments.push({
-        name: attachmentName,
-        url: attachmentLink
-      });
+      const base64Data = await fetchAttachmentAsBase64(attachmentLink);
+      if (base64Data) {
+        attachments.push({
+          name: attachmentName,
+          base64: base64Data,
+          mimeType: 'application/octet-stream' // Default MIME type, can be adjusted if needed
+        });
+      }
     }
-  });
+  }
   return attachments;
 }
 
@@ -73,25 +95,21 @@ function extractEmailId() {
 }
 
 // Function to handle email content extraction
-function handleEmail() {
+async function handleEmail() {
   chrome.runtime.sendMessage({
     action: 'busy',
   });
   const emailText = extractEmailText();
   const urls = extractUrls();  // Extract URLs from the email body
   const imageLinks = extractImageLinks();  // Extract image URLs
-  const attachments = extractAttachments();
   const emailId = extractEmailId();
 
   if (emailId && emailId !== lastProcessedEmailId) {
     // Update the last processed email ID to the current one
     lastProcessedEmailId = emailId;
-    // console.log('Email Text:', emailText);
-    // console.log('Extracted URLs:', urls);
-    // console.log('Extracted Image Links:', imageLinks);
-    // console.log('Extracted Attachments:', attachments);
 
     // Send the email content, URLs, image links, and attachments to your API endpoint
+    const attachments = await extractAttachments(); // Wait for attachment data
     sendSelectedContent(emailText, urls, imageLinks, attachments);
   }
 }
@@ -104,7 +122,7 @@ function sendSelectedContent(emailText, urls, imageLinks, attachments) {
     imageLinks: imageLinks, // Extracted image URLs
     attachments: attachments // Extracted attachment details
   };
-
+  console.log(data)
   // Send a POST request to the Flask server
   fetch(apiUrl, {
     method: 'POST',
