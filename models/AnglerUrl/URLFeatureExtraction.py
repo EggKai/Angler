@@ -124,41 +124,25 @@ def feature_extraction(url, verbose=False):
     # IP address presence
     ip = having_ip(url)
     features.append(ip)
+    features.append(get_url_length(url))# URL length
+    features.append(http_in_domain(url)) # HTTPS in domain
+    features.append(is_tiny_url(url))# TinyURL shortening service
+    features.append(has_prefix_suffix(url))# Prefix/Suffix in domain
     
-    # URL length
-    features.append(get_url_length(url))
-    
-    # HTTPS in domain
-    features.append(http_in_domain(url))
-    
-    # TinyURL shortening service
-    features.append(is_tiny_url(url))
-    
-    # Prefix/Suffix in domain
-    features.append(has_prefix_suffix(url))
-    
-    # Domain registration check if the URL does not have an IP
-    if ip == 0:
+    if ip == 0: # Domain registration check if the URL does not have an IP
         features.append(check_domain_registration_date(url))
     else:
         features.append(0)  # No registration date check for IP-based URLs
-    
-    # Extension check
-    features.append(check_no_extension(url))
-    
-    # Count of URLs in webpage
-    features.append(count_urls_in_webpage(url))
-    
-    # Redirection to another domain
-    features.append(check_redirection_to_another_domain(url))
+    features.append(check_no_extension(url))# Extension check
+    features.append(count_urls_in_webpage(url))# Count of URLs in webpage
+    features.append(check_redirection_to_another_domain(url))# Redirection to another domain
     
     if verbose:
         print(features)
     return features[1:]  # Return features excluding the URL
 
 
-# Define the feature names for the extracted data
-FEATURE_NAMES = [
+FEATURE_NAMES = [ # Define the feature names for the extracted data
     'Domain', 'Have_IP', 'URL_Length', 'https_Domain', 'TinyURL', 'Prefix/Suffix',
     'Domain_Age', 'Extension', 'Check_Depth', 'Redirect_Diff_Domain'
 ]

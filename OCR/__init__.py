@@ -37,6 +37,7 @@ def process_images(image_urls):
 if __name__ == "__main__":
     # Run the function
     image_urls = [
+    "https://global-uploads.webflow.com/5e5ff4f0165cd367cc7ca88f/6009e9edba9c2ab78a6245d7_PayPal-01.png",
     "https://cdn.freewebstore.com/origin/194139/honestynelvp12p49_1676741562675.jpg",
     "https://ci3.googleusercontent.com/meips/ADKq_NaDBZgPu-UBOGDfTfx7Sx_yWSv9jeXK-AUJM_J3cffNJDvLV2SnUtqsm0XERTpb-pOrXCZNCSGPnIFX3GtFwZe_J39LebJaJUOYjC9yMn0dk55tbNTXyhQcQabHYE0=s0-d-e1-ft#https://store.fastly.steamstatic.com/public/shared/images/email/logo.png",
     "https://ci3.googleusercontent.com/meips/ADKq_NbdQtxFNDx8gtksu6eKd3LH-cgsuJ85jp6Xyxr4hS1X9NRB2a6sfnZ9AdH09r_U9kWa5yEZEwMCL6-414pOuX3KQ8ND8S-CGOh7wgh6uja3TNNrBiWs-i3QiC3udeWIIniAgJaoI-23L7c9H1An1XS5TO7cr6fZquzhZRV53m0i=s0-d-e1-ft#https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/930210/capsule_616x353.jpg?t=1667495159",
