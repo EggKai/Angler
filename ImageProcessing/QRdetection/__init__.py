@@ -3,8 +3,6 @@ from typing import List, Set
 import cv2
 import numpy as np
 from pyzbar.pyzbar import decode #if u see an import error; check https://www.microsoft.com/en-US/download/details.aspx?id=40784
-# import ctypes
-# ctypes.windll.LoadLibrary(r"ImageProcessing\QRdetection\libzbar-64.dll")
 
 def read_qr_codes(image_path: str) -> List[str]:
         """
@@ -21,13 +19,10 @@ def read_qr_codes(image_path: str) -> List[str]:
             FileNotFoundError: If the image file does not exist.
             ValueError: If the image cannot be loaded.
         """
-        # image_path = Path(image_path)
-        
-        # if not image_path.exists():
-        #     raise FileNotFoundError(f"Image file not found: {image_path}")
+        if not Path(image_path).exists():
+            raise FileNotFoundError(f"Image file not found: {image_path}")
 
-        # Load the image
-        img = cv2.imread(image_path)
+        img = cv2.imread(image_path) # Load the image
         if img is None:
             raise ValueError(f"Failed to load image: {image_path}")
 
