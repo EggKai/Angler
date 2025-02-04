@@ -84,7 +84,7 @@ def check_phishing_phishtank(url_to_check, app_key=None, *, verbose: bool = Fals
         "found": False,
     }
     
-def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtract()):
+def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtract()) -> list:
     return urlExtractor.find_urls(text)
 
 def extract_domain(urls:list) -> set:
