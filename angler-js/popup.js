@@ -40,7 +40,7 @@ function updateWebpage() {
     }
 
     // Check if any required fields are missing, and if so, show the loading bar at 95%
-    const requiredFields = ['Spam', 'Phishing', 'LLM', 'urls', 'Code', 'Executables'];
+    const requiredFields = ['Spam', 'Phishing', 'LLM', 'urls', 'attachments'];
     const missingFields = requiredFields.filter(field => !(field in emailData));
     if (missingFields.length > 0) {
       updateLoadingBar(95);  // Update loading bar progress to 60%
@@ -63,8 +63,8 @@ function updateWebpage() {
     // document.getElementById('spam-score').textContent = `${emailData?.Spam}%`;
     // document.getElementById('phishing-score').textContent = `${emailData?.Phishing}%`;
     // document.getElementById('llm-score').textContent = `${emailData?.LLM}%`;
-    document.getElementById('code').textContent = `${emailData?.Code ?? 'No Code Files'}`;
-    document.getElementById('executables').textContent = `${emailData?.Executables ?? "No Executable Files"}`;
+    // document.getElementById('code').textContent = `${emailData?.Code ?? 'No Code Files'}`;
+    // document.getElementById('executables').textContent = `${emailData?.Executables ?? "No Executable Files"}`;
 
 
     const urlsSection = document.getElementById('urls-section'); // 🔗 Display URLs & Status

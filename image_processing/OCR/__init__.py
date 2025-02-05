@@ -19,10 +19,8 @@ def process_images(file_paths: List[str]) -> Iterator[Set[str]]:
     for file_path in file_paths:
         if os.path.exists(file_path):
             text: Optional[str] = perform_ocr(file_path)
-            if text:
+            if text:#if text exists
                 yield text
-            else:
-                warnings.warn(f"Skipping {file_path} because file did not contain any text")
         else:
             warnings.warn(f"Error: File not found - {file_path}")
 
