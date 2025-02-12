@@ -90,7 +90,32 @@ def extractUrls(text:str, urlExtractor:urlextract.URLExtract=urlextract.URLExtra
 def extract_domain(urls:list) -> set:
     return set(f"{urlparse(url).scheme}://{urlparse(url).netloc}" for url in urls if urlparse(url).netloc)
 
+def is_downloadable(url):
+    try:
+        response = requests.head(url, allow_redirects=True)
+        content_type = response.headers.get("Content-Type", "").lower()
+        content_disposition = response.headers.get("Content-Disposition", "")
+
+        # Check for Content-Disposition with filename
+        if "attachment" in content_disposition.lower() or "filename=" in content_disposition:
+            return True
+
+        # Check for content types that are often downloadable
+        return content_type in [
+            "application/octet-stream",
+            "application/zip",
+            "application/pdf",
+            "application/x-msdownload",
+            "application/vnd.ms-excel",
+            "application/vnd.ms-powerpoint",
+            "application/msword"
+            ]
+    except requests.RequestException:
+        return False
+
+
 if __name__ == "__main__":
-    assert not check_phishing_phishtank("https://www.dbs.com.sg/index/default.page")[
-        "is_phishing"
-    ], "This DBS link is real"
+    # assert not check_phishing_phishtank("https://www.dbs.com.sg/index/default.page")[
+    #     "is_phishing"
+    # ], "This DBS link is real"
+    print(is_downloadable("https://git.abyssaltar.com/water/"))

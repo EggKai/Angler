@@ -42,19 +42,58 @@ function extractImageLinks() {
 }
 
 // Function to download and convert attachment to Base64
-async function fetchAttachmentAsBase64(url) {
+async function fetchAttachmentAsBase64(url, retries = 5, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
   try {
-    const response = await fetch(url);
+      const response = await fetch(url, {
+        credentials: "include", headers: {
+          "User-Agent": navigator.userAgent, // Mimic a real browser request
+          "Referer": "https://mail.google.com", // Gmail's origin
+          "Accept": "*/*"
+        }, redirect: "follow"
+      });
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     const blob = await response.blob();
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(',')[1]); // Get Base64 data
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
       reader.readAsDataURL(blob);
     });
   } catch (error) {
-    console.error('Error fetching attachment:', error);
+      console.error(`Attempt ${i + 1} failed:`, error);
+      if (i < retries - 1) await new Promise((res) => setTimeout(res, delay)); // Wait before retrying
+    }
+  }
     return null;
   }
+
+// Function to download and convert attachment to Text
+async function fetchAttachmentAsText(url, retries = 5, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, {
+        credentials: "include", headers: {
+          "User-Agent": navigator.userAgent, // Mimic a real browser request
+          "Referer": "https://mail.google.com", // Gmail's origin
+          "Accept": "*/*"
+        }, redirect: "follow"
+      });
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      console.log(response);
+      console.log(response.textContent);
+      // const blob = await response.blob();
+      // return new Promise((resolve) => {
+      //   const reader = new FileReader();
+      //   console.log(reader.result);
+      //   reader.onloadend = () => resolve(btoa(reader.result));;
+      //   reader.readAsText(blob);
+      // });
+    } catch (error) {
+      console.error(`Attempt ${i + 1} failed:`, error);
+      if (i < retries - 1) await new Promise((res) => setTimeout(res, delay)); // Wait before retrying
+    }
+  }
+  return null;
 }
 
 // Function to extract attachments from the email
@@ -64,9 +103,20 @@ async function extractAttachments() {
   // console.log(attachmentElements);
   for (const element of attachmentElements) {
     const attachmentLink = element.querySelector('a') ? element.querySelector('a').href : '';
-    const attachmentName = element.querySelector('a > span.a3I') ? element.querySelector('a > span.a3I').innerText  : '';
+    const attachmentName = element.querySelector('a > span.a3I') ? element.querySelector('a > span.a3I').innerText : '';
     console.log(attachmentName, attachmentLink);
     if (attachmentLink && attachmentName) {
+      if (['js', 'ps1', 'c', 'rs', 'sh', 'py', 'txt', 'csv'].includes(attachmentName.split('.').pop().toLowerCase())) {
+        // console.log(attachmentName, attachmentName.split('.').pop().toLowerCase());
+        const textData = await fetchAttachmentAsText(attachmentLink);
+        if (textData) {
+          attachments.push({
+            name: attachmentName,
+            base64: textData,
+            mimeType: 'text/plain' //Plaintext MIMEType
+          });
+        }
+      } else {
       const base64Data = await fetchAttachmentAsBase64(attachmentLink);
       if (base64Data) {
         attachments.push({
@@ -76,9 +126,12 @@ async function extractAttachments() {
         });
       }
     }
+
+    }
   }
   return attachments;
 }
+
 
 // Function to extract email identifier (e.g., thread ID or subject)
 function extractEmailId() {

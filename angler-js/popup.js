@@ -81,18 +81,18 @@ function updateWebpage() {
     createCircleChart('phishing', emailData.Phishing)
     createCircleChart('spam', emailData.Spam,)
     createCircleChart('llm', emailData.LLM)
-    // // 📎 Display Attachments
-    // const attachmentList = document.getElementById('attachment-list');
-    // attachmentList.innerHTML = '';  // Clear placeholder
-    // if (emailData.attachments && emailData.attachments.length > 0) {
-    //   emailData.attachments.forEach(attachment => {
-    //     const listItem = document.createElement('li');
-    //     listItem.innerHTML = `<a href="${attachment.url}" target="_blank">${attachment.name}</a>`;
-    //     attachmentList.appendChild(listItem);
-    //   });
-    // } else {
-    //   attachmentList.innerHTML = '<li>No attachments.</li>';
-    // }
+    // 📎 Display Attachments
+    const attachmentList = document.getElementById('attachment-list');
+    attachmentList.innerHTML = '';  // Clear placeholder
+    if (emailData.attachments && Object.keys(emailData.attachments).length > 0) {
+      Object.entries(emailData.attachments).forEach(([attachmentname, status]) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `${attachmentname} - <strong>${status?'Potentially Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
+        attachmentList.appendChild(listItem);
+      });
+    } else {
+      attachmentList.innerHTML = '<li>No attachments.</li>';
+    }
   });
 }
 
