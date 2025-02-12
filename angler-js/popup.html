@@ -16,6 +16,10 @@
         <div id="loading-progress"></div>
       </div>
     </div>
+    <div id="verdict-container" hidden>
+      <p id="verdict-text"></p>
+      <button id="toggle-details-button" hidden>Show Details</button>
+    </div>
     <div id="email-content" hidden>
       <h3>📑 Analysis Summary</h3>
       <div class="score-container">
@@ -30,13 +34,6 @@
         <span class="label">LLM Score:</span>
         <div class="circle" id="circles-llm"></div>
       </div>
-      <!-- <table> -->
-        <!-- <tr><th>Spam Probability:</th><td id="spam-score">Loading...</td></tr> -->
-        <!-- <tr><th>Phishing Probability:</th><td id="phishing-score">Loading...</td></tr> -->
-        <!-- <tr><th>LLM Score:</th><td id="llm-score">Loading...</td></tr> -->
-        <!-- <tr><th>Code:</th><td id="code">Loading...</div></td></tr> -->
-        <!-- <tr><th>Executables:</th><td id="executables">Loading...</td></tr> -->
-      <!-- </table> -->
       <h3>🔗 URLs & Status</h3>
       <ul id="urls-section"><li>Loading...</li></ul> 
       <h3>📎 Attachments</h3>

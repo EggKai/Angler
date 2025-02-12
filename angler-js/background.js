@@ -5,14 +5,14 @@ chrome.runtime.onInstalled.addListener(() => {
 // Function to save email content and attachments to storage
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'saveEmail') {
-    const { Spam, Phishing, LLM, urls, Code, Executables } = request.emailData;
+    const { Spam, Phishing, LLM, urls, attachments, verdict } = request.emailData;
     const emailData = {
       Spam: Spam,
       Phishing: Phishing,
       LLM: LLM,
       urls: urls,
-      Code: Code,
-      Executables: Executables,
+      attachments: attachments,
+      verdict: verdict,
       timestamp: new Date().toISOString(),
     };
     chrome.storage.local.set({ emailData: emailData }, () => {

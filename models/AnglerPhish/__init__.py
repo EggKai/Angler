@@ -3,8 +3,9 @@ import pandas as pd
 import joblib
 
 phishing_classifier = joblib.load(r'models/AnglerPhish/phishing_classifier.pkl')
-def predict_phishing_probability(emails):
-    print(phishing_classifier.predict_proba(pd.Series(emails))[0][1])
+def predict_phishing_probability(emails, verbose:bool=False):
+    if verbose:
+        print(phishing_classifier.predict_proba(pd.Series(emails))[0][1])
     return round(phishing_classifier.predict_proba(pd.Series(emails))[0][1] * 100, 1)
 
 if __name__ == "__main__":

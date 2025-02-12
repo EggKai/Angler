@@ -1,4 +1,4 @@
-# XXX Chrome Extension
+# Angler Chrome Extension
 
 ## Installation
 

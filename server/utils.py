@@ -38,7 +38,12 @@ def checkContent(text:str, urls:List[str], imgUrls:List[str]):
         "Phishing" : predict_phishing_probability(text),
         "LLM" : LLM_probablity(text),
         "urls" : checkUrls(text, urls),
-        "attachments" : {}
     }
-def total_score():
-    pass
+def verdict(checked_content: dict) -> bool:
+    return (
+        checked_content["Spam"] >= 96
+        or checked_content["Phishing"] >= 84
+        or checked_content["LLM"] >= 50
+        or any(checked_content.get("urls", {}).values())
+        or any(checked_content.get("attachments", {}).values())
+    )

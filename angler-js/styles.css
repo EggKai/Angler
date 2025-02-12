@@ -85,3 +85,39 @@ li {
   font-size: 18px;
   color: #333;
 }
+
+/* Verdict Container */
+#verdict-container {
+  margin-top: 20px;
+}
+
+#verdict-text {
+  font-size: 30px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 10px 0;
+}
+
+#toggle-details-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+#toggle-details-button:hover {
+  background-color: #45a049;
+}
+
+/* Center the button and verdict text */
+#verdict-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

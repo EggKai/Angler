@@ -4,8 +4,8 @@ import os
 import warnings
 from typing import List, Union, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from OCR import process_images
-from QRdetection import read_qr_codes
+from .OCR import process_images, perform_ocr
+from .QRdetection import read_qr_codes
 def get_image_extension_from_response(response: requests.Response) -> str:
     """Determine the image file extension based on content type."""
     content_type: str = response.headers.get('Content-Type', '')

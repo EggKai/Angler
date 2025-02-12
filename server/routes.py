@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
 from .auth import check_origin, authenticate_token
-from .utils import sanitize_content, checkContent
+from .utils import sanitize_content, checkContent, verdict
 from models import predict_malware, get_file_extension ,TEXT_EXTENSIONS, is_downloadable, extractUrls
 import base64, os, warnings, requests
 
@@ -75,8 +75,9 @@ def receive_data():
             
 
     checked['attachments'].update({filename : predict_malware(filepath) for filename, filepath in zip(file_names, saved_files)})
-    print(checked)
     for file in saved_files:
         if os.path.exists(file):
             os.remove(file)
+    checked['verdict'] = verdict(checked_content=checked)
+    print(checked)
     return jsonify(checked), 200

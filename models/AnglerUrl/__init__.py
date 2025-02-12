@@ -2,7 +2,7 @@ import pickle
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 from .URLFeatureExtraction import feature_extraction
-from .external import check_phishing_phishtank, extract_domain, extractUrls
+from .external import check_phishing_phishtank, extract_domain, extractUrls, is_downloadable
 with open('models/AnglerUrl/xgboost_url_model.pkl', 'rb') as file: # Load the trained model
     loaded_model = pickle.load(file)
 def predict_url(url:str) -> bool :
