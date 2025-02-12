@@ -2,7 +2,7 @@
 import pandas as pd
 import joblib
 
-spam_classifier = joblib.load(r'models/SpamAssassin/spam_classifier.pkl')
+spam_classifier = joblib.load(r'models/AnglerSpam/spam_classifier.pkl')
 def predict_spam_probability(emails:str, verbose:bool=False):
     if verbose:
         print(spam_classifier.predict_proba(pd.Series(emails))[0][1])

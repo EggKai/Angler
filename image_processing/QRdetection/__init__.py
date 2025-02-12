@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Set
 import cv2
-import numpy as np
+import warnings
 from pyzbar.pyzbar import decode #if u see an import error; check https://www.microsoft.com/en-US/download/details.aspx?id=40784
 
 def read_qr_codes(image_path: str) -> List[str]:
@@ -24,7 +24,8 @@ def read_qr_codes(image_path: str) -> List[str]:
 
         img = cv2.imread(image_path) # Load the image
         if img is None:
-            raise ValueError(f"Failed to load image: {image_path}")
+            warnings.warn(f"Failed to load image: {image_path}") #move on
+            return {}
 
         # Convert to grayscale for better QR detection
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

@@ -94,12 +94,11 @@ li {
 #verdict-text {
   font-size: 30px;
   font-weight: bold;
-  color: #2c3e50;
   margin: 10px 0;
 }
 
 #toggle-details-button {
-  background-color: #4caf50;
+  background-color: #4c70af;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -111,7 +110,7 @@ li {
 }
 
 #toggle-details-button:hover {
-  background-color: #45a049;
+  background-color: #4562a0;
 }
 
 /* Center the button and verdict text */
@@ -120,4 +119,11 @@ li {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.green-text{
+  color:#4caf50;
+}
+.red-text{
+  color: crimson;
 }

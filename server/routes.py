@@ -77,7 +77,10 @@ def receive_data():
     checked['attachments'].update({filename : predict_malware(filepath) for filename, filepath in zip(file_names, saved_files)})
     for file in saved_files:
         if os.path.exists(file):
-            os.remove(file)
+            try:
+                os.remove(file)
+            except PermissionError as pe:
+                warnings.warn(pe)
     checked['verdict'] = verdict(checked_content=checked)
     print(checked)
     return jsonify(checked), 200

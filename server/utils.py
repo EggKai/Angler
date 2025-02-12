@@ -22,14 +22,14 @@ def checkContent(text:str, urls:List[str], imgUrls:List[str]):
     """
     with DownloadFile(imgUrls) as temp_files:
         if temp_files:
-            for file in temp_files.copy():
+            for file in temp_files:
                 qr_data=read_qr_codes(file)
                 if qr_data:
                     urls+=qr_data
             
-    with DownloadFile(imgUrls) as temp_files:
-        if temp_files:
-            for file in temp_files:
+    with DownloadFile(imgUrls) as temp_files2:
+        if temp_files2:
+            for file in temp_files2:
                 ocr_text = perform_ocr(file)
                 if ocr_text:
                     text+= ocr_text
@@ -40,10 +40,10 @@ def checkContent(text:str, urls:List[str], imgUrls:List[str]):
         "urls" : checkUrls(text, urls),
     }
 def verdict(checked_content: dict) -> bool:
-    return (
+    return bool(
         checked_content["Spam"] >= 96
         or checked_content["Phishing"] >= 84
         or checked_content["LLM"] >= 50
         or any(checked_content.get("urls", {}).values())
         or any(checked_content.get("attachments", {}).values())
-    )
+    ) #stop it from typecasting np.True__

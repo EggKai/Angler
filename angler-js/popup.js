@@ -29,12 +29,7 @@ function updateWebpage() {
   if (loadingBar) {
     loadingBar.hidden = false; // Show progress bar
   }
-  const toggleButton = document.getElementById('toggle-details-button');
-
   
-  if (toggleButton) {
-    toggleButton.hidden = false; // Show progress bar
-  }
 
   chrome.storage.local.get('emailData', (data) => {
     const emailData = data?.emailData;
@@ -61,13 +56,17 @@ function updateWebpage() {
     if (loadingContainer) {
       loadingContainer.style.display = 'none';  // Hide the loading container once loading is done
     }
-
+    const toggleButton = document.getElementById('toggle-details-button');
+    if (toggleButton) {
+      toggleButton.hidden = false; // Show progress bar
+    }
     // Display the verdict
     const verdictContainer = document.getElementById('verdict-container');
     const verdictText = document.getElementById('verdict-text');
     if (verdictContainer && verdictText) {
       verdictContainer.hidden = false;
       verdictText.textContent = emailData.verdict?"Malicious":"Benign";
+      verdictText.className = `${emailData.verdict?'red-text':'green-text'}`
     }
 
     // Update Analysis Summary
@@ -76,7 +75,7 @@ function updateWebpage() {
     if (emailData.urls && Object.keys(emailData.urls).length > 0) {
       Object.entries(emailData.urls).forEach(([url, status]) => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `<a ${!status?`href="${url}"`:''} target="_blank">${url}</a> - <strong>${status?'Potentially Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
+        listItem.innerHTML = `<a ${!status?`href="${url}"`:''} target="_blank">${url}</a> - <strong class="${status?'red-text':'green-text'}">${status?'Potentially Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
         urlsSection.appendChild(listItem);
       });
     } else {
@@ -92,7 +91,7 @@ function updateWebpage() {
     if (emailData.attachments && Object.keys(emailData.attachments).length > 0) {
       Object.entries(emailData.attachments).forEach(([attachmentname, status]) => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `${attachmentname} - <strong>${status?'Potentially Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
+        listItem.innerHTML = `${attachmentname} - <strong class="${status?'red-text':'green-text'}">${status?'Potentially Unsafe':'Safe'}</strong>`; //we dont want the link to be clickable if it is safe
         attachmentList.appendChild(listItem);
       });
     } else {
