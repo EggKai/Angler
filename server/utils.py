@@ -2,6 +2,7 @@ import html
 from typing import List
 from image_processing import perform_ocr, read_qr_codes, DownloadFile
 from models import checkUrls, LLM_probablity, predict_phishing_probability, predict_spam_probability
+from functools import lru_cache
 
 def sanitize_content(content):
     """Sanitize the content to avoid XSS (HTML escaping)."""
