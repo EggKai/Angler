@@ -168,6 +168,6 @@ Feel free to fork the repository and contribute by submitting issues and pull re
 
 ### **9. License**
 
-This project is licensed under the ___ License.
+This project is licensed under the MIT License.
 
 ---
